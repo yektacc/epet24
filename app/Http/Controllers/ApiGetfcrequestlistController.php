@@ -77,7 +77,7 @@
 				->where("is_active",1)
 				->orderby('id', 'DESC')
 				->get();
-
+var_dump($query_result);
                 $results['api_status'] = 1;
                 $results['api_message'] = 'fc_requests';
                 $results['data'] = $query_result->toArray();
