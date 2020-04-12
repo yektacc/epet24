@@ -29,7 +29,7 @@
                     $order = DB::table('prd_orders')
                         ->where("order_code",$postdata['order_code'])
                         ->first();
-                        
+                    var_dump($order);    
                     DB::table('prd_orders')
                                 ->where('id',$order->id)
                                 ->update([

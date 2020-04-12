@@ -71,10 +71,11 @@
                         
                         foreach($order_item as $ord_itm)
                         {
+                        $quantity = $ord_itm->quantity;
                             DB::table('prd_sale_item')
                                     ->where('id',$ord_itm->item_id)
                                     ->update([
-                                "sale_count" => DB::raw('sale_count' + $ord_itm->quantity),
+                                'sale_count' => DB::raw('sale_count' + '$quantity')
                             ]);
                         }
                     }

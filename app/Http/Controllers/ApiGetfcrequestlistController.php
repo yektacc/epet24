@@ -29,16 +29,16 @@
                     $req_type = explode(',',$postdata['request_type']);
                     $count = count($req_type);
                     
-                    for ($i = 0 ; $i < $count ; $i++){
+                      for ($i = 0 ; $i < $count ; $i++){
                         $where_clause .= "request_type = ? ";
                         $where_parameters[] = $req_type[$i];
                         if ($i+1 < $count)
                             $where_clause .= "OR ";
-                    }
-					$where_clause .= ")";
-//					var_dump($where_clause);
-//					var_dump($where_parameters);
-				}	
+                		}
+		$where_clause .= ")";
+//		var_dump($where_clause);
+//		var_dump($where_parameters);
+		}	
 				if(isset($postdata['id']))
 				{
 					$where_clause .= " AND (fc_requests.id = ?)";
@@ -56,8 +56,7 @@
                         if ($i+1 < $count)
                             $where_clause .= "OR ";
                     }
-					$where_clause .= ")";
-
+		$where_clause .= ")";
 				}	
 				if(isset($postdata['province_id']) && isset($postdata['city_id']))
 				{
@@ -65,7 +64,11 @@
 					$where_parameters[] = $postdata['province_id'];
 					$where_parameters[] = $postdata['city_id'];
 				}
-
+				if(isset($postdata['app_user_id']))
+				{
+				$where_clause .= " AND (fc_requests.customer_id = ?)";
+				$where_parameters[] = $postdata['app_user_id'];
+				}
 				$query_result = DB::table('fc_requests')
 					->join('cities',"cities.id","=","fc_requests.city_id")
 					->join('provinces',"provinces.id","=","fc_requests.province_id")
@@ -77,7 +80,7 @@
 				->where("is_active",1)
 				->orderby('id', 'DESC')
 				->get();
-var_dump($query_result);
+//				var_dump($query_result);
                 $results['api_status'] = 1;
                 $results['api_message'] = 'fc_requests';
                 $results['data'] = $query_result->toArray();

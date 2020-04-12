@@ -29,7 +29,7 @@
                         $data['response_message'] = USER_ALREADY_EXISTS;
                     }
                     else {
-//                    DB::transaction(function () use (&$postdata, &$user){
+
                         if(empty($user)){
                         $app_users_id = DB::table('app_users')->insertGetId([
                                 'id' => NULL,

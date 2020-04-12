@@ -35,49 +35,54 @@ class ApiGetproductdetailsController extends \crocodicstudio\crudbooster\control
 //		var_dump($rows); exit;
             foreach ($rows as $row){
                 $seller_score = DB::table('srv_center_score')
-				->where('srv_center_id', '=', $row->seller_id)
-				->get();
+                               ->where('srv_center_id', '=', $row->seller_id)
+                               ->get();
 
                 $seller_exist = DB::table('srv_centers')
-                ->where('id', '=', $row->seller_id)
-                ->where('deleted_at', '=', NULL)
-                ->get();
+                               ->where('id', '=', $row->seller_id)
+                               ->where('deleted_at', '=', NULL)
+                               ->get();
                 $seller_exist = $seller_exist->toArray();
-                if($seller_exist[0]->id >0)
+                
+            if($seller_exist[0]->id >0)
                 {
                    // var_dump($seller_exist); exit;
                 }
                 $seller_score_rows = $seller_score->toArray();
                 $srv_score_sum = 0;
-                foreach($seller_score_rows as $seller_score_row)
+            foreach($seller_score_rows as $seller_score_row)
                 {
                 
                     $srv_score_sum += intval($seller_score_row->score);
                 }
                
                //var_dump($srv_score_sum); exit;
-               if(count($seller_score_rows) > 0)
-                    $seller_score_avg = $srv_score_sum / count($seller_score_rows);
-                else
-                    $seller_score_avg = 0;                
-
-                $prd_score = DB::table('prd_sale_item_score')->where('prd_sale_item_id', '=', $row->prd_sale_item_id)->get();
+            if(count($seller_score_rows) > 0){
+                    $seller_score_avg = $srv_score_sum / count($seller_score_rows);}
+                
+            else {
+                    $seller_score_avg = 0;
+                 }
+                 
+            $prd_score = DB::table('prd_sale_item_score')
+                    ->where('prd_sale_item_id', '=', $row->prd_sale_item_id)
+                    ->get();
+                
                 $prd_score_rows = $prd_score->toArray();
                 $prd_score_sum = 0;
-                foreach($prd_score_rows as $prd_score_row)
-                {
+            foreach($prd_score_rows as $prd_score_row)
                 
+                {
                     $prd_score_sum += intval($prd_score_row->score);
                 }
-               
-               //var_dump($srv_score_sum); exit;
-               if(count($prd_score_rows) > 0)
-                    $prd_score_avg = $prd_score_sum / count($prd_score_rows);
-                else
-                    $prd_score_avg = 0;  
 
-               
-                if (count($query_result) == 0 && $seller_exist[0]->id >0 && $row->deleted_at == NULL){
+               //var_dump($srv_score_sum); exit;
+               if(count($prd_score_rows) > 0){
+                    $prd_score_avg = $prd_score_sum / count($prd_score_rows);}
+                else {
+                    $prd_score_avg = 0;
+                     }
+            if (count($query_result) == 0 && $seller_exist[0]->id >0 && $row->deleted_at == NULL){
                     $query_result[] = [
                         "product_id" => $row->id,
                         "product_code" => $row->code,

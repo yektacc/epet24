@@ -20,13 +20,14 @@
 		try{
 		$query_result = DB::table('aml_animals')
 		->where("app_users_id",$postdata['app_users_id'])
+		->where('deleted_at',NULL)
 		->pluck("id")
 		->first();
 		
-		DB::table("aml_animals")
-		    ->where("id",$query_result)
+		DB::table('aml_animals')
+		    ->where('id',$query_result)
 		    ->update([
-		    "id" => $query_result,
+		    'id' => $query_result,
 /*
 		    "app_users_id" => $postdata['app_users_id'],
 		    "animal_name" => $query_result->animal_name,
@@ -36,7 +37,7 @@
 		    "type_id" => $query_result->type_id,
 		    "sterilization_id" => $query_result->sterilization_id,
 */
-		    "deleted_at" => Carbon::now(),
+		    'deleted_at' => Carbon::now(),
 		    ]);
 
 		    $data['response_code'] = 0;

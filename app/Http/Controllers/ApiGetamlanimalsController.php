@@ -18,6 +18,7 @@
 		        //This method will be execute before run the main process
 			$query = DB::table('aml_animals')
 			->where('app_users_id', '=', $postdata['app_users_id'])
+			->where('deleted_at', NULL)
 			->get();
 
 		    $results['api_status'] = 1;

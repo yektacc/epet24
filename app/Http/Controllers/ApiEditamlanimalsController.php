@@ -19,21 +19,23 @@
 		        //This method will be execute before run the main process
 		try{
 		$query_result = DB::table('aml_animals')
-		->where("app_users_id",$postdata['app_users_id'])
-		->pluck("id")
+		->where('app_users_id', $postdata['app_users_id'])
+		->where('deleted_at', NULL)
+		->pluck('id')
 		->first();
 		
-		DB::table("aml_animals")
-			->where("id",$query_result)
+		DB::table('aml_animals')
+			->where('id',$query_result)
 			->update([
-			"id" => $query_result,
-			"app_users_id" => $postdata['app_users_id'],
-			"animal_name" => $postdata["animal_name"],
-			"animal_age" => $postdata["animal_age"],
-			"gender_id" => $postdata["gender_id"],
-			"type_id" => $postdata["type_id"],
-			"sterilization_id" => $postdata["sterilization_id"],
-			"updated_at" => Carbon::now(),
+			'id' => $query_result,
+			'app_users_id' => $postdata['app_users_id'],
+			'animal_name' => $postdata['animal_name'],
+			'animal_age' => $postdata['animal_age'],
+			'birth_date' => $postdata['birth_date'],
+			'gender_id' => $postdata['gender_id'],
+			'type_id' => $postdata['type_id'],
+			'sterilization_id' => $postdata['sterilization_id'],
+			'updated_at' => Carbon::now(),
 			]);
                     $data['response_code'] = 0;
                     $results['api_status'] = 1;

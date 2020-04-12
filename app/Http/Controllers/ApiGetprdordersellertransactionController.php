@@ -41,19 +41,20 @@
                 ->join('prd_orders','prd_orders.id','=','prd_order_seller_transaction.order_id')
 		->where('seller_id',$postdata['seller_id'])
 		->get();
-
-	    $results['api_message'] = $result_query;
-//	    $results['api_message2'] = $order_code;
 	    }
+	    $results['api_status'] = 1;
+	    $results['api_message'] = "get prd order seller transaction";
+	    $results['data'] = $result_query;
+	    
 	}
 	catch (\Exception $exception){
 	    $results['api_status'] = 0;
 	    $results['api_message'] = 'server error'. $exception;
 	}
 	    //
-	$results['api_status'] = 1;
+	
 	    
-	$results['response_code'] = 0;
+//	$results['response_code'] = 0;
 	echo json_encode($results, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	die;
 
